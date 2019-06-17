@@ -14,22 +14,32 @@ POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
 
 #Checks for valid commands
 def process_commands(message, name):
+
+    #no flag response
     if(message.lower() == "!vbot"):
         post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
 
+    #help flag
     if("!vbot help" in message.lower() or "!vbot h" in message.lower()):
         post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
 
+    #cake flag
     if("!vbot cake" in message.lower() or "!vbot c" in message.lower()):
         make_cake(name)    
 
+    #time flag
     if("!vbot time" in message.lower() or "!vbot t" in message.lower()):
+        ctime = time.gmtime()
+        seconds_left = (18 - ctime[3]) * 3600 + (30 - ctime[4]) * 60 + (60 - ctime[5]) - 60
         if (seconds_left < 0):
             seconds_left = 86400 + seconds_left
         post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
 
+    #insult flag
     if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
         post_message(name + ' ' + postfix_insults[ (int)(ctime[5]/6) ])
+
+    ### ------- ADD NEW FLAGS HERE ------- ###
 
 #posts a message in the channel
 def post_message(s):
@@ -52,6 +62,7 @@ def read_message():
         user = json.loads(profile.text)
         display_name = user['first_name'] + ' ' + user['last_name']
 
+        #returns message, display name
         return (info['posts'][post]['message'], display_name)
 
 #prints cake with string centered
@@ -60,14 +71,7 @@ def print_cake(string):
 
 #Converts display name to nickname
 def get_nickname(name):
-    if (name == 'Ethan Zuccola'):
-        return('Shithead')
-    elif(name == 'Collin Werner'):
-        return('Idiot')
-    elif(name == 'Chrissy Cotton'):
-        return('VolleyGod')
-    elif(name == 'Zach Dudzik'):
-        return('BotGod')
+    return nicknames[name]
 
 #Constructs cake with appropriate nickname
 def make_cake(name):
@@ -78,12 +82,15 @@ def make_cake(name):
 #insults for insult command
 postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.']
 
-while True:
-    #updates time
-    true_time = time.time()
-    ctime = time.gmtime()
-    seconds_left = (18 - ctime[3]) * 3600 + (30 - ctime[4]) * 60 + (60 - ctime[5]) - 60
+#dictionary of nicknames for users
+nicknames = {'Ethan Zuccola': 'Shithead',
+             'Chrissy Cotton': 'VolleyGod',
+             'Collin Werner': 'Idiot',
+             'Zach Dudzik': 'BotGod'
+            }
 
+
+while True:
     #gets messages/display names
     message, name = read_message()
 
