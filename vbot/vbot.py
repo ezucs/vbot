@@ -1,5 +1,6 @@
 import json
 import time
+import random
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -37,7 +38,8 @@ def process_commands(message, name):
 
     #insult flag
     if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
-        post_message(name + ' ' + postfix_insults[ (int)(ctime[5]/6) ])
+        index = random.randint(0, len(postfix_insults))
+        post_message(name + ' ' + postfix_insults[index])
 
     ### ------- ADD NEW FLAGS HERE ------- ###
 
