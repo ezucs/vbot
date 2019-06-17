@@ -12,11 +12,32 @@ bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
 
+#Checks for valid commands
+def process_commands(message, name):
+    if(message.lower() == "!vbot"):
+        post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
+
+    if("!vbot help" in message.lower() or "!vbot h" in message.lower()):
+        post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
+
+    if("!vbot cake" in message.lower() or "!vbot c" in message.lower()):
+        make_cake(name)    
+
+    if("!vbot time" in message.lower() or "!vbot t" in message.lower()):
+        if (seconds_left < 0):
+            seconds_left = 86400 + seconds_left
+        post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
+
+    if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
+        post_message(name + ' ' + postfix_insults[ (int)(ctime[5]/6) ])
+
+#posts a message in the channel
 def post_message(s):
     data = {'channel_id': bearer_token, 'message': s}
     headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
     requests.post(POST_URL, json= data, headers= headers, verify= False)
 
+#gets a message/display name of messages sent in the channel
 def read_message():
     headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
     resp = requests.get(LISTEN_URL, headers= headers, verify= False)
@@ -33,27 +54,29 @@ def read_message():
 
         return (info['posts'][post]['message'], display_name)
 
+#prints cake with string centered
 def print_cake(string):
     post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !    ' + string + '            \n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
 
-def make_cake(name):
+#Converts display name to nickname
+def get_nickname(name):
     if (name == 'Ethan Zuccola'):
-        print_cake('        Happy Day Shithead!')
-        time.sleep(1)
+        return('Shithead')
     elif(name == 'Collin Werner'):
-        print_cake('        Happy Day Idiot!')
-        time.sleep(1)
+        return('Idiot')
     elif(name == 'Chrissy Cotton'):
-        print_cake('      Happy Day VolleyGod!')
-        time.sleep(1)
+        return('VolleyGod')
     elif(name == 'Zach Dudzik'):
-        print_cake('        Happy Day BotGod!')
-        time.sleep(1)
-    else:
-        print_cake('      Happy Day '+ name + '!')
+        return('BotGod')
+
+#Constructs cake with appropriate nickname
+def make_cake(name):
+        nickname = get_nickname(name)
+        print_cake('      Happy Day '+ nickname + '!')
         time.sleep(1)
 
-insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.']
+#insults for insult command
+postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.']
 
 while True:
     #updates time
@@ -63,21 +86,7 @@ while True:
 
     #gets messages/display names
     message, name = read_message()
-    message.lower()
 
-    if(message.lower() == "!vbot"):
-        post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
-
-    if("!vbot help" in message.lower() or "!vbot h" in message.lower()):
-        post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
-
-    if("!vbot cake" in message.lower() or "!vbot c" in message.lower()):
-        make_cake(name)    
-
-    if("!vbot time" in message.lower() or "!vbot t" in message.lower()):
-        if (seconds_left < 0):
-            seconds_left = 86400 + seconds_left
-        post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
-
-    if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
-        post_message(name + ' ' + insults[ (int)(ctime[5]/6) ])
+    #processes commands
+    process_commands(message, name)
+    
