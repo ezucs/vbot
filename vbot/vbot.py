@@ -4,7 +4,7 @@ import random
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-from adventure import adventure_game
+#from adventure import adventure_game
 
 
 bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
@@ -14,7 +14,7 @@ bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
-5
+
 #Checks for valid commands
 def process_commands(message, name):
 
@@ -43,9 +43,13 @@ def process_commands(message, name):
         index = random.randint(0, len(postfix_insults))
         post_message(name + ' ' + postfix_insults[index])
 
+    #version flag
+    if("!vbot version" in message.lower() or "!vbot v" in message.lower()):
+        post_message('You are currently using vbot version 0.2.21, thank you for your continued support of vbot.')
+
     #adventure flag
-    if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
-        adventure_game()
+    #if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
+        #adventure_game()
 
     #gamble flag
 
@@ -81,11 +85,18 @@ def read_message():
 def print_cake(string):
     #center the name
     if len(string) % 2 == 0:
-        spaces1 = (40 - len(string)) / 2
-        spaces2 = spaces1
+        num_spaces1 = (20 - len(string)/ 2)
+        num_spaces2 = num_spaces1
     else:
-        spaces1 =  (int)((40 - len(string)) / 2)
-        spaces2 = spaces1 + 1
+        num_spaces1 =  (int)(20 - len(string)/2)
+        num_spaces2 = num_spaces1 - 1
+
+    spaces1 = ''
+    for i in range(num_spaces1):
+        spaces1 = spaces1 + ' '
+    spaces2 = ''
+    for j in range(num_spaces2):
+        spaces2 = spaces2 + ' '
 
     post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !' + spaces1 + string + spaces2 + '!\n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
 
@@ -96,7 +107,7 @@ def get_nickname(name):
 #Constructs cake with appropriate nickname
 def make_cake(name):
         nickname = get_nickname(name)
-        print_cake('      Happy Day '+ nickname + '!')
+        print_cake('Happy Day '+ nickname + '!')
         time.sleep(1)
 
 #insults for insult command
