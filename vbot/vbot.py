@@ -8,11 +8,12 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 #intern channel qrfhyetwutnnucb3uuoe3ka1fh
+#for test channel use the token for your dms
 #test channel h6phkma4ibnr3fpdayutxpy7wh
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
-
+5
 #Checks for valid commands
 def process_commands(message, name):
 
