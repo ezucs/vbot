@@ -46,7 +46,7 @@ def process_commands(message, name):
     #adventure flag
     if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
         adventure_game()
-        
+
     #gamble flag
 
     #pokemon flag
@@ -79,7 +79,15 @@ def read_message():
 
 #prints cake with string centered
 def print_cake(string):
-    post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !    ' + string + '            \n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
+    #center the name
+    if len(string) % 2 == 0:
+        spaces1 = (40 - len(string)) / 2
+        spaces2 = spaces1
+    else:
+        spaces1 =  (int)((40 - len(string)) / 2)
+        spaces2 = spaces1 + 1
+
+    post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !' + spaces1 + string + spaces2 + '!\n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
 
 #Converts display name to nickname
 def get_nickname(name):
@@ -92,7 +100,7 @@ def make_cake(name):
         time.sleep(1)
 
 #insults for insult command
-postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.']
+postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.','looks like their face caught on fire and someone tried to put it out with a fork.','should slip into a coma.','has no life.','']
 
 #dictionary of nicknames for users
 nicknames = {'Ethan Zuccola': 'Shithead',
