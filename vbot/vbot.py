@@ -4,6 +4,7 @@ import random
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+from adventure import adventure_game
 
 
 bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
@@ -41,6 +42,14 @@ def process_commands(message, name):
     if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
         index = random.randint(0, len(postfix_insults))
         post_message(name + ' ' + postfix_insults[index])
+
+    #adventure flag
+    if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
+        adventure_game()
+        
+    #gamble flag
+
+    #pokemon flag
 
     ### ------- ADD NEW FLAGS HERE ------- ###
 
