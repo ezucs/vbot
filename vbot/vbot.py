@@ -47,7 +47,11 @@ def process_commands(message, name):
     #version flag
     if("!vbot version" in message.lower() or "!vbot v" in message.lower()):
         post_message('You are currently using vbot version 0.2.22, thank you for your continued support of vbot.')
-
+    
+    #thank you comm
+    if("thanks vbot" in message.lower()):
+        post_message('VolleyBot Says: You\'re Welcome ' + name)
+        
     #adventure flag
     #if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
         #adventure_game()
