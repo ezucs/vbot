@@ -5,16 +5,16 @@ import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 #from adventure import adventure_game
+from pokemon import pokemon_list
 
-
-bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
+bearer_token = 'h6phkma4ibnr3fpdayutxpy7wh'
 #intern channel qrfhyetwutnnucb3uuoe3ka1fh
 #for test channel use the token for your dms
 #test channel h6phkma4ibnr3fpdayutxpy7wh
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
-AUTH_TOKEN = '--------------------------'
+AUTH_TOKEN = 'h6s5cmnp5pr77kx6s7ao3huwzh'
 
 #Checks for valid commands
 def process_commands(message, name):
@@ -123,7 +123,6 @@ nicknames = {'Ethan Zuccola': 'Shithead',
              'Collin Werner': 'Idiot',
              'Zach Dudzik': 'BotGod'
             }
-
 
 while True:
     #gets messages/display names
