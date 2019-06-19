@@ -14,6 +14,7 @@ bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
+AUTH_TOKEN = 'h6s5cmnp5pr77kx6s7ao3huwzh'
 
 #Checks for valid commands
 def process_commands(message, name):
@@ -40,12 +41,12 @@ def process_commands(message, name):
 
     #insult flag
     if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
-        index = random.randint(0, len(postfix_insults))
+        index = random.randint(0, len(postfix_insults) - 1)
         post_message(name + ' ' + postfix_insults[index])
 
     #version flag
     if("!vbot version" in message.lower() or "!vbot v" in message.lower()):
-        post_message('You are currently using vbot version 0.2.21, thank you for your continued support of vbot.')
+        post_message('You are currently using vbot version 0.2.22, thank you for your continued support of vbot.')
 
     #adventure flag
     #if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
@@ -60,12 +61,12 @@ def process_commands(message, name):
 #posts a message in the channel
 def post_message(s):
     data = {'channel_id': bearer_token, 'message': s}
-    headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
+    headers = {'Authorization': 'Bearer ' + AUTH_TOKEN}
     requests.post(POST_URL, json= data, headers= headers, verify= False)
 
 #gets a message/display name of messages sent in the channel
 def read_message():
-    headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
+    headers = {'Authorization': 'Bearer ' + AUTH_TOKEN}
     resp = requests.get(LISTEN_URL, headers= headers, verify= False)
     if(resp.status_code==200):
         #gets the message text
@@ -88,21 +89,24 @@ def print_cake(string):
         num_spaces1 = (20 - len(string)/ 2)
         num_spaces2 = num_spaces1
     else:
-        num_spaces1 =  (int)(20 - len(string)/2)
+        num_spaces1 =  int((20 - len(string)/2))
         num_spaces2 = num_spaces1 - 1
-
+        
     spaces1 = ''
-    for i in range(num_spaces1):
+    for i in range(int(num_spaces1)):
         spaces1 = spaces1 + ' '
     spaces2 = ''
-    for j in range(num_spaces2):
+    for j in range(int(num_spaces2)):
         spaces2 = spaces2 + ' '
 
     post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !' + spaces1 + string + spaces2 + '!\n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
 
 #Converts display name to nickname
 def get_nickname(name):
-    return nicknames[name]
+    if name in nicknames:
+        return nicknames[name]
+    else:
+        return name
 
 #Constructs cake with appropriate nickname
 def make_cake(name):
