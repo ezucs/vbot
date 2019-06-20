@@ -4,10 +4,8 @@ import random
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-#from adventure import adventure_game
-from pokemon import pokemon_list
 
-bearer_token = 'h6phkma4ibnr3fpdayutxpy7wh'
+bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 #intern channel qrfhyetwutnnucb3uuoe3ka1fh
 #for test channel use the token for your dms
 #test channel h6phkma4ibnr3fpdayutxpy7wh
@@ -24,15 +22,15 @@ def process_commands(message, name):
         post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
 
     #help flag
-    if("!vbot help" in message.lower() or "!vbot h" in message.lower()):
+    if("!vbot h" in message.lower()):
         post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
 
     #cake flag
-    if("!vbot cake" in message.lower() or "!vbot c" in message.lower()):
+    if("!vbot c" in message.lower()):
         make_cake(name)    
 
     #time flag
-    if("!vbot time" in message.lower() or "!vbot t" in message.lower()):
+    if("!vbot t" in message.lower()):
         ctime = time.gmtime()
         seconds_left = (18 - ctime[3]) * 3600 + (30 - ctime[4]) * 60 + (60 - ctime[5]) - 60
         if (seconds_left < 0):
@@ -40,25 +38,24 @@ def process_commands(message, name):
         post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
 
     #insult flag
-    if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
+    if("!vbot i" in message.lower()):
         index = random.randint(0, len(postfix_insults) - 1)
         post_message(name + ' ' + postfix_insults[index])
 
     #version flag
-    if("!vbot version" in message.lower() or "!vbot v" in message.lower()):
+    if("!vbot v" in message.lower()):
         post_message('You are currently using vbot version 0.2.22, thank you for your continued support of vbot.')
     
     #thank you comm
     if("thanks vbot" in message.lower()):
-        post_message('VolleyBot Says: You\'re Welcome ' + name)
-        
+        if(name != 'Maxwell Kunze'):
+            post_message('VolleyBot Says: You\'re Welcome ' + name)
+
     #adventure flag
     #if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
         #adventure_game()
 
     #gamble flag
-
-    #pokemon flag
 
     ### ------- ADD NEW FLAGS HERE ------- ###
 
@@ -114,12 +111,12 @@ def get_nickname(name):
 
 #Constructs cake with appropriate nickname
 def make_cake(name):
-        nickname = get_nickname(name)
-        print_cake('Happy Day '+ nickname + '!')
-        time.sleep(1)
+    nickname = get_nickname(name)
+    print_cake('Happy Day '+ nickname + '!')
+    time.sleep(1)
 
 #insults for insult command
-postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.','looks like their face caught on fire and someone tried to put it out with a fork.','should slip into a coma.','has no life.','']
+postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Max Kunze.','stinks.','literally cannot read.','looks like their face caught on fire and someone tried to put it out with a fork.','should slip into a coma.','has no life.','']
 
 #dictionary of nicknames for users
 nicknames = {'Ethan Zuccola': 'Shithead',
