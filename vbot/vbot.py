@@ -12,18 +12,18 @@ bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
-AUTH_TOKEN = '--------------------------' #intercept traffic using fiddler and paste auth_token here
+AUTH_TOKEN = '-------------------------'
 
 #Checks for valid commands
 def process_commands(message, name):
 
     #no flag response
     if(message.lower() == "!vbot"):
-        post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
+        post_message("VolleyBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
 
     #help flag
     if("!vbot h" in message.lower()):
-        post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
+        post_message("VolleyBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester \n version(v): gets the current version of VolleyBot.")
 
     #cake flag
     if("!vbot c" in message.lower()):
@@ -35,16 +35,16 @@ def process_commands(message, name):
         seconds_left = (18 - ctime[3]) * 3600 + (30 - ctime[4]) * 60 + (60 - ctime[5]) - 60
         if (seconds_left < 0):
             seconds_left = 86400 + seconds_left
-        post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
+        post_message(f'VolleyBot Says: There are merely {seconds_left} seconds until Volley Ball!')
 
     #insult flag
     if("!vbot i" in message.lower()):
         index = random.randint(0, len(postfix_insults) - 1)
-        post_message(name + ' ' + postfix_insults[index])
+        post_message('VolleyBoy Says: ' + name + ' ' + postfix_insults[index])
 
     #version flag
     if("!vbot v" in message.lower()):
-        post_message('You are currently using vbot version 0.2.22, thank you for your continued support of vbot.')
+        post_message('VolleyBoy Says: You are currently using vbot version 0.2.26, thank you for your continued support of vbot.')
     
     #thank you comm
     if("thanks vbot" in message.lower()):
@@ -88,7 +88,7 @@ def print_cake(string):
     #center the name
     if len(string) % 2 == 0:
         num_spaces1 = (20 - len(string)/ 2)
-        num_spaces2 = num_spaces1
+        num_spaces2 = num_spaces1 - 2
     else:
         num_spaces1 =  int((20 - len(string)/2))
         num_spaces2 = num_spaces1 - 1
