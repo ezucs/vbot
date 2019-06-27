@@ -4,8 +4,6 @@ import random
 import requests
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-#from adventure import adventure_game
-
 
 bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 #intern channel qrfhyetwutnnucb3uuoe3ka1fh
@@ -14,38 +12,44 @@ bearer_token = 'qrfhyetwutnnucb3uuoe3ka1fh'
 
 LISTEN_URL = 'https://mattermost.hyland.com/api/v4/channels/' + bearer_token + '/posts'
 POST_URL = 'https://mattermost.hyland.com/api/v4/posts'
+AUTH_TOKEN = '-------------------------'
 
 #Checks for valid commands
 def process_commands(message, name):
 
     #no flag response
     if(message.lower() == "!vbot"):
-        post_message("VBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
+        post_message("VolleyBot Says: Thank you for using vbot! For a list of commands please use the help or h flag.")
 
     #help flag
-    if("!vbot help" in message.lower() or "!vbot h" in message.lower()):
-        post_message("VBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester")
+    if("!vbot h" in message.lower()):
+        post_message("VolleyBot Says: \n time(t): tells amount of time until volleyball (in mere seconds) \n cake(c): Makes you a cake! Happy Day! \n insult(i): insults the requester \n version(v): gets the current version of VolleyBot.")
 
     #cake flag
-    if("!vbot cake" in message.lower() or "!vbot c" in message.lower()):
+    if("!vbot c" in message.lower()):
         make_cake(name)    
 
     #time flag
-    if("!vbot time" in message.lower() or "!vbot t" in message.lower()):
+    if("!vbot t" in message.lower()):
         ctime = time.gmtime()
         seconds_left = (18 - ctime[3]) * 3600 + (30 - ctime[4]) * 60 + (60 - ctime[5]) - 60
         if (seconds_left < 0):
             seconds_left = 86400 + seconds_left
-        post_message(f'VBot Says: There are merely {seconds_left} seconds until Volley Ball!')
+        post_message(f'VolleyBot Says: There are merely {seconds_left} seconds until Volley Ball!')
 
     #insult flag
-    if("!vbot insult" in message.lower() or "!vbot i" in message.lower()):
-        index = random.randint(0, len(postfix_insults))
-        post_message(name + ' ' + postfix_insults[index])
+    if("!vbot i" in message.lower()):
+        index = random.randint(0, len(postfix_insults) - 1)
+        post_message('VolleyBoy Says: ' + name + ' ' + postfix_insults[index])
 
     #version flag
-    if("!vbot version" in message.lower() or "!vbot v" in message.lower()):
-        post_message('You are currently using vbot version 0.2.21, thank you for your continued support of vbot.')
+    if("!vbot v" in message.lower()):
+        post_message('VolleyBoy Says: You are currently using vbot version 0.2.26, thank you for your continued support of vbot.')
+    
+    #thank you comm
+    if("thanks vbot" in message.lower()):
+        if(name != 'Maxwell Kunze'):
+            post_message('VolleyBot Says: You\'re Welcome ' + name)
 
     #adventure flag
     #if("!vbot adventure" in message.lower() or "!vbot a" in message.lower()):
@@ -53,19 +57,17 @@ def process_commands(message, name):
 
     #gamble flag
 
-    #pokemon flag
-
     ### ------- ADD NEW FLAGS HERE ------- ###
 
 #posts a message in the channel
 def post_message(s):
     data = {'channel_id': bearer_token, 'message': s}
-    headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
+    headers = {'Authorization': 'Bearer ' + AUTH_TOKEN}
     requests.post(POST_URL, json= data, headers= headers, verify= False)
 
 #gets a message/display name of messages sent in the channel
 def read_message():
-    headers = {'Authorization': 'Bearer jjn1xqx4dpd8zkg8xg3scqgppa'}
+    headers = {'Authorization': 'Bearer ' + AUTH_TOKEN}
     resp = requests.get(LISTEN_URL, headers= headers, verify= False)
     if(resp.status_code==200):
         #gets the message text
@@ -86,32 +88,35 @@ def print_cake(string):
     #center the name
     if len(string) % 2 == 0:
         num_spaces1 = (20 - len(string)/ 2)
-        num_spaces2 = num_spaces1
+        num_spaces2 = num_spaces1 - 2
     else:
-        num_spaces1 =  (int)(20 - len(string)/2)
+        num_spaces1 =  int((20 - len(string)/2))
         num_spaces2 = num_spaces1 - 1
-
+        
     spaces1 = ''
-    for i in range(num_spaces1):
+    for i in range(int(num_spaces1)):
         spaces1 = spaces1 + ' '
     spaces2 = ''
-    for j in range(num_spaces2):
+    for j in range(int(num_spaces2)):
         spaces2 = spaces2 + ' '
 
     post_message('                           )\\ \n                          (__)\n                           /\\ \n                          [[]]\n                       @@@[[]]@@@\n                 @@@@@@@@@[[]]@@@@@@@@@\n             @@@@@@@      [[]]      @@@@@@@\n         @@@@@@@@@        [[]]        @@@@@@@@@\n        @@@@@@@           [[]]           @@@@@@@\n        !@@@@@@@@@                    @@@@@@@@@!\n        !    @@@@@@@                @@@@@@@    !\n        !        @@@@@@@@@@@@@@@@@@@@@@        !\n        !              @@@@@@@@@@@             !\n        !             ______________           !\n        !' + spaces1 + string + spaces2 + '!\n        !             --------------           !\n        !!!!!!!                          !!!!!!!\n             !!!!!!!                !!!!!!!\n                 !!!!!!!!!!!!!!!!!!!!!!!')
 
 #Converts display name to nickname
 def get_nickname(name):
-    return nicknames[name]
+    if name in nicknames:
+        return nicknames[name]
+    else:
+        return name
 
 #Constructs cake with appropriate nickname
 def make_cake(name):
-        nickname = get_nickname(name)
-        print_cake('Happy Day '+ nickname + '!')
-        time.sleep(1)
+    nickname = get_nickname(name)
+    print_cake('Happy Day '+ nickname + '!')
+    time.sleep(1)
 
 #insults for insult command
-postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Ethan Zuccola.','stinks.','literally cannot read.','looks like their face caught on fire and someone tried to put it out with a fork.','should slip into a coma.','has no life.','']
+postfix_insults = ['is a dumpster fire.', 'SUX!','should just give up already.','is almost as bad as Max Kunze.','stinks.','literally cannot read.','looks like their face caught on fire and someone tried to put it out with a fork.','should slip into a coma.','has no life.','']
 
 #dictionary of nicknames for users
 nicknames = {'Ethan Zuccola': 'Shithead',
@@ -119,7 +124,6 @@ nicknames = {'Ethan Zuccola': 'Shithead',
              'Collin Werner': 'Idiot',
              'Zach Dudzik': 'BotGod'
             }
-
 
 while True:
     #gets messages/display names
